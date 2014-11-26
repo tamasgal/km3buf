@@ -1,0 +1,51 @@
+// KM3Buf event
+// This is a template for km3net events.
+// Author: Tamas Gal <tgal@km3net.de>
+
+package km3buf;
+
+message Vector {
+    required double x = 1;
+    required double y = 2;
+    required double z = 3;
+}
+
+enum TrackType {
+    MC_TRACK = 0;
+    RECO_TRACK = 1;
+}
+
+enum HitType {
+    MC_HIT = 0;
+    RAW_HIT = 1;
+}
+
+message Track {
+    required uint32 id = 1;
+    optional Vector pos = 2;
+    optional Vector dir = 3;
+    optional TrackType type = 4 [default = RECO_TRACK];
+    optional sint32 pdg_id = 5;
+}
+
+message Hit {
+    required uint32 id = 1;
+    optional uint32 dom_id = 2;
+    optional uint32 channel_id = 3;
+    optional sint32 time = 4;
+    optional uint32 tot = 5;
+    optional HitType type = 6 [default = RAW_HIT];
+}
+
+message Event {
+    required uint32 id = 1;
+    optional uint32 run_id = 2;
+    optional uint32 frame_index = 3;
+    optional uint32 trigger_counter = 4;
+    optional bytes trigger_mask = 5;
+    optional uint32 time = 6;
+    repeated Track tracks = 7;
+    repeated Hit snapshot_hits = 8;
+    repeated Hit triggered_hits = 9;
+}
+
